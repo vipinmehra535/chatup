@@ -1,22 +1,25 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone_flutter/resources/auth_methods.dart';
 import 'package:instagram_clone_flutter/utils/color.dart';
+import 'package:instagram_clone_flutter/utils/utils.dart';
 import 'package:instagram_clone_flutter/widgets/text_field_input.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
 
   @override
-  _SignupScreenState createState() => _SignupScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+  Uint8List? _image;
 
   @override
   void dispose() {
@@ -30,6 +33,14 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
+
+    selectImage() async {
+      Uint8List im = await pickImage(ImageSource.gallery);
+      setState(() {
+        _image = im;
+      });
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -49,17 +60,24 @@ class _SignupScreenState extends State<SignupScreen> {
                 const SizedBox(height: 64),
                 Stack(
                   children: [
-                    const CircleAvatar(
-                      radius: 64,
-                      // backgroundImage: NetworkImage(
-                      //     "https://images.unsplash.com/photo-1642202892967-4da0e19b33c9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=400&q=60"),
-                    ),
+                    _image != null
+                        ? CircleAvatar(
+                            radius: 64,
+                            backgroundImage: MemoryImage(_image!),
+                          )
+                        : const CircleAvatar(
+                            radius: 64,
+                            backgroundImage: NetworkImage(
+                                "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"),
+                          ),
                     Positioned(
                       bottom: -10,
                       left: 80,
                       child: IconButton(
                         icon: const Icon(Icons.add_a_photo),
-                        onPressed: () {},
+                        onPressed: () {
+                          selectImage();
+                        },
                       ),
                     )
                   ],
@@ -97,9 +115,10 @@ class _SignupScreenState extends State<SignupScreen> {
                       password: _passwordController.text,
                       username: _usernameController.text,
                       bio: _bioController.text,
+                      file: _image!,
                     );
                     if (kDebugMode) {
-                      print(res);
+                      print("Done :$res");
                     }
                   },
                   child: Container(
