@@ -44,7 +44,6 @@ class AuthMethods {
         //   'followers': [],
         //   'following': [],
         // });
-
         res = "success";
       }
     } catch (err) {
