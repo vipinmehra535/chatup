@@ -57,7 +57,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         isLoading = false;
       });
       if (res != 'success') {
-        showSnackBar(res, context);
+        if (context.mounted) {
+          showSnackBar(res, context);
+        }
       }
 
       if (kDebugMode) {
