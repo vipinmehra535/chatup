@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone_flutter/model/user.dart' as model;
-import 'package:instagram_clone_flutter/providers/user_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:instagram_clone_flutter/utils/color.dart';
+import 'package:instagram_clone_flutter/utils/global_variables.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({Key? key}) : super(key: key);
@@ -13,35 +11,85 @@ class MobileScreenLayout extends StatefulWidget {
 }
 
 class _MobileScreenLayoutState extends State<MobileScreenLayout> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  int _page = 0;
+  late PageController pageController; // for tabs animation
 
-  // String username = "";
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController();
+  }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   getUserName();
-  // }
+  @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
+  }
 
-  // void getUserName() async {
-  //   DocumentSnapshot snap =
-  //       await _firestore.collection('users').doc(_auth.currentUser!.uid).get();
+  void onPageChanged(int page) {
+    setState(() {
+      _page = page;
+    });
+  }
 
-  //   setState(() {
-  //     username = (snap.data() as Map<String, dynamic>)['username'];
-  //   });
-  //   if (kDebugMode) {
-  //     print("Data ${snap.data()}");
-  //   }
-  // }
+  void navigationTapped(int page) {
+    //Animating Page
+    pageController.jumpToPage(page);
+  }
 
   @override
   Widget build(BuildContext context) {
-    model.User user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
-      body: Center(
-        child: Text(user.username),
+      body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: pageController,
+        onPageChanged: onPageChanged,
+        children: homeScreenItems,
+      ),
+      bottomNavigationBar: CupertinoTabBar(
+        onTap: navigationTapped,
+        currentIndex: _page,
+        backgroundColor: mobileBackgroundColor,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+              color: (_page == 0) ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor,
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.search,
+                color: (_page == 1) ? primaryColor : secondaryColor,
+              ),
+              label: '',
+              backgroundColor: primaryColor),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.add_circle,
+                color: (_page == 2) ? primaryColor : secondaryColor,
+              ),
+              label: '',
+              backgroundColor: primaryColor),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.favorite,
+              color: (_page == 3) ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              color: (_page == 4) ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor,
+          ),
+        ],
       ),
     );
   }
