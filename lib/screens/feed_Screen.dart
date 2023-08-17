@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_clone_flutter/utils/color.dart';
+import 'package:instagram_clone_flutter/widgets/post_card.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({Key? key}) : super(key: key);
@@ -28,7 +29,7 @@ class _FeedScreenState extends State<FeedScreen> {
           )
         ],
       ),
-      body: const FeedScreen(),
+      body: const PostCard(),
     );
   }
 }
