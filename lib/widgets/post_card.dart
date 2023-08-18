@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone_flutter/utils/color.dart';
+import 'package:intl/intl.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({Key? key}) : super(key: key);
+  final snap;
+  const PostCard({
+    Key? key,
+    required this.snap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,21 +23,22 @@ class PostCard extends StatelessWidget {
                 .copyWith(right: 0),
             child: Row(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 16,
                   backgroundImage: NetworkImage(
-                      "https://images.unsplash.com/photo-1682695795931-a546abdb6733?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=1000&q=60"),
+                    snap["profImage"],
+                  ),
                 ),
-                const Expanded(
+                Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 8),
+                    padding: const EdgeInsets.only(left: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          "username",
-                          style: TextStyle(
+                          "${snap['username']}",
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         )
@@ -43,26 +49,26 @@ class PostCard extends StatelessWidget {
                 IconButton(
                     onPressed: () {
                       showDialog(
-                          context: context,
-                          builder: (context) => Dialog(
-                                child: ListView(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 16),
-                                  shrinkWrap: true,
-                                  children: ['Delete']
-                                      .map(
-                                        (e) => InkWell(
-                                          onTap: () {},
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 12, horizontal: 16),
-                                            child: Text(e),
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
-                              ));
+                        context: context,
+                        builder: (context) => Dialog(
+                          child: ListView(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shrinkWrap: true,
+                            children: ['Delete']
+                                .map(
+                                  (e) => InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 12, horizontal: 16),
+                                      child: Text(e),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                      );
                     },
                     icon: const Icon(Icons.more_vert))
               ],
@@ -74,7 +80,7 @@ class PostCard extends StatelessWidget {
             height: size.height * 0.35,
             width: double.infinity,
             child: Image.network(
-              "https://images.unsplash.com/photo-1683009427540-c5bd6a32abf6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHx8&auto=format&fit=crop&w=400&q=60",
+              snap['postUrl'],
               filterQuality: FilterQuality.high,
               fit: BoxFit.cover,
             ),
@@ -128,7 +134,7 @@ class PostCard extends StatelessWidget {
                       .subtitle2!
                       .copyWith(fontWeight: FontWeight.w600),
                   child: Text(
-                    "20 likes",
+                    '${snap['likes'].length} likes',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ),
@@ -136,16 +142,15 @@ class PostCard extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.only(top: 8),
                   child: RichText(
-                    text: const TextSpan(
-                      style: TextStyle(color: primaryColor),
+                    text: TextSpan(
+                      style: const TextStyle(color: primaryColor),
                       children: [
                         TextSpan(
-                          text: 'username',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          text: snap['username'],
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
-                          text:
-                              ' Hey this is description is replaced after some time',
+                          text: " ${snap['description']}",
                         )
                       ],
                     ),
@@ -166,9 +171,11 @@ class PostCard extends StatelessWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: const Text(
-                    "29/12/2002",
-                    style: TextStyle(
+                  child: Text(
+                    DateFormat.yMMMd().format(
+                      snap['datePublished'].toDate(),
+                    ),
+                    style: const TextStyle(
                       fontSize: 12,
                       color: secondaryColor,
                     ),

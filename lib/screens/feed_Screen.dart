@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_clone_flutter/utils/color.dart';
@@ -11,6 +12,8 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +32,31 @@ class _FeedScreenState extends State<FeedScreen> {
           )
         ],
       ),
-      body: const PostCard(),
+      body: StreamBuilder(
+        stream: firestore.collection('posts').snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return ScrollConfiguration(
+            behavior: const ScrollBehavior(),
+            child: GlowingOverscrollIndicator(
+              color: primaryColor,
+              axisDirection: AxisDirection.down,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) => PostCard(
+                  snap: snapshot.data!.docs[index].data(),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
