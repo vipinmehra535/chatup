@@ -22,8 +22,6 @@ class _PostCardState extends State<PostCard> {
   bool isLikeAnimating = false;
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
-
     final User user = Provider.of<UserProvider>(context).getUser;
     return Container(
       color: mobileBackgroundColor,
