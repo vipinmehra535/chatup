@@ -37,7 +37,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
         centerTitle: false,
       ),
       body: StreamBuilder(
-        stream:  FirebaseFirestore.instance
+        stream: FirebaseFirestore.instance
             .collection('posts')
             .doc(widget.snap['postId'])
             .collection('comments')
@@ -50,12 +50,13 @@ class _CommentsScreenState extends State<CommentsScreen> {
             );
           }
           return ListView.builder(
-              itemCount: (snapshot.data! as dynamic).docs.length,
-              itemBuilder: (context, index) {
-                return CommentCard(
-                  snap: (snapshot.data! as dynamic).docs[index].data(),
-                );
-              });
+            itemCount: (snapshot.data! as dynamic).docs.length,
+            itemBuilder: (context, index) {
+              return CommentCard(
+                snap: (snapshot.data! as dynamic).docs[index].data(),
+              );
+            },
+          );
         },
       ),
       bottomNavigationBar: SafeArea(
@@ -90,7 +91,11 @@ class _CommentsScreenState extends State<CommentsScreen> {
                       user.uid,
                       user.username,
                       user.photoUrl);
-                  commentController.clear();
+                  setState(
+                    () {
+                      commentController.text = "";
+                    },
+                  );
                 },
                 child: Container(
                   padding:
@@ -100,7 +105,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                     style: TextStyle(color: blueColor),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

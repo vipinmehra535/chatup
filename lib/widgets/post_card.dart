@@ -38,8 +38,7 @@ class _PostCardState extends State<PostCard> {
           .collection('posts')
           .doc(widget.snap['postId'])
           .collection('comments')
-          .get()                                          
-          ;
+          .get();
 
       commentLen = snap.docs.length;
     } catch (e) {
