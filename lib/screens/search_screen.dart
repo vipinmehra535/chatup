@@ -17,138 +17,140 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: mobileBackgroundColor,
-        title: Form(
-          child: TextFormField(
-            controller: searchController,
-            decoration: const InputDecoration(labelText: 'Search'),
-            onFieldSubmitted: (String _) {
-              print("sub ${_}");
-              setState(() {
-                isShowUsers = true;
-              });
-            },
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: mobileBackgroundColor,
+          title: Form(
+            child: TextFormField(
+              controller: searchController,
+              decoration: const InputDecoration(labelText: 'Search'),
+              onFieldSubmitted: (String _) {
+                print("sub ${_}");
+                setState(() {
+                  isShowUsers = true;
+                });
+              },
+            ),
           ),
         ),
-      ),
-      body: isShowUsers
-          ? FutureBuilder(
-              future: FirebaseFirestore.instance
-                  .collection('users')
-                  .where(
-                    'username',
-                    isGreaterThanOrEqualTo: searchController.text.toUpperCase(),
-                  )
-                  .get(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.none) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
-                  );
-                } else if (snapshot.connectionState ==
-                    ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
-                  );
-                } else {
+        body: isShowUsers
+            ? StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .where(
+                      'username',
+                      isEqualTo: searchController.text,
+                    )
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return const Center(child: Text("Some Error"));
+                  } else {
+                    return (snapshot.data! as dynamic).docs.isEmpty
+                        ? const Center(child: Text("No User Found"))
+                        : ListView.builder(
+                            itemCount: (snapshot.data! as dynamic).docs.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => ProfileScreen(
+                                      uid: (snapshot.data! as dynamic)
+                                          .docs[index]['uid'],
+                                    ),
+                                  ),
+                                ),
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                      (snapshot.data! as dynamic).docs[index]
+                                          ['photoUrl'],
+                                    ),
+                                    radius: 16,
+                                  ),
+                                  title: Text(
+                                    (snapshot.data! as dynamic).docs[index]
+                                        ['username'],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                  }
+
+                  // if (!snapshot.hasData) {
+                  //   return const Center(
+                  //     child: CircularProgressIndicator(),
+                  //   );
+                  // }
+                  // return ListView.builder(
+                  //   itemCount: (snapshot.data! as dynamic).docs.length,
+                  //   itemBuilder: (context, index) {
+                  //     return InkWell(
+                  //       // onTap: () => Navigator.of(context).push(
+                  //       //   MaterialPageRoute(
+                  //       //     builder: (context) => ProfileScreen(
+                  //       //       uid: (snapshot.data! as dynamic).docs[index]['uid'],
+                  //       //     ),
+                  //       //   ),
+                  //       // ),
+                  //       child: ListTile(
+                  //         leading: CircleAvatar(
+                  //           backgroundImage: NetworkImage(
+                  //             (snapshot.data! as dynamic).docs[index]['photoUrl'],
+                  //           ),
+                  //           radius: 16,
+                  //         ),
+                  //         title: Text(
+                  //           (snapshot.data! as dynamic).docs[index]['username'],
+                  //         ),
+                  //       ),
+                  //     );
+                  //   },
+                  // );
+                },
+              )
+            // :
+            //  Container());
+            : FutureBuilder(
+                future: FirebaseFirestore.instance
+                    .collection('posts')
+                    .orderBy('datePublished')
+                    .get(),
+                builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
-                  return ListView.builder(
+
+                  return MasonryGridView.count(
+                    crossAxisCount: 3,
                     itemCount: (snapshot.data! as dynamic).docs.length,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => ProfileScreen(
-                              uid: (snapshot.data! as dynamic).docs[index]
-                                  ['uid'],
-                            ),
-                          ),
-                        ),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                              (snapshot.data! as dynamic).docs[index]
-                                  ['photoUrl'],
-                            ),
-                            radius: 16,
-                          ),
-                          title: Text(
-                            (snapshot.data! as dynamic).docs[index]['username'],
-                          ),
-                        ),
-                      );
-                    },
+                    itemBuilder: (context, index) => Image.network(
+                      (snapshot.data! as dynamic).docs[index]['postUrl'],
+                      fit: BoxFit.cover,
+                    ),
+                    mainAxisSpacing: 8.0,
+                    crossAxisSpacing: 8.0,
                   );
-                }
-
-                // if (!snapshot.hasData) {
-                //   return const Center(
-                //     child: CircularProgressIndicator(),
-                //   );
-                // }
-                // return ListView.builder(
-                //   itemCount: (snapshot.data! as dynamic).docs.length,
-                //   itemBuilder: (context, index) {
-                //     return InkWell(
-                //       // onTap: () => Navigator.of(context).push(
-                //       //   MaterialPageRoute(
-                //       //     builder: (context) => ProfileScreen(
-                //       //       uid: (snapshot.data! as dynamic).docs[index]['uid'],
-                //       //     ),
-                //       //   ),
-                //       // ),
-                //       child: ListTile(
-                //         leading: CircleAvatar(
-                //           backgroundImage: NetworkImage(
-                //             (snapshot.data! as dynamic).docs[index]['photoUrl'],
-                //           ),
-                //           radius: 16,
-                //         ),
-                //         title: Text(
-                //           (snapshot.data! as dynamic).docs[index]['username'],
-                //         ),
-                //       ),
-                //     );
-                //   },
-                // );
-              },
-            )
-          // :
-          //  Container());
-          : FutureBuilder(
-              future: FirebaseFirestore.instance
-                  .collection('posts')
-                  .orderBy('datePublished')
-                  .get(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                return MasonryGridView.count(
-                  crossAxisCount: 3,
-                  itemCount: (snapshot.data! as dynamic).docs.length,
-                  itemBuilder: (context, index) => Image.network(
-                    (snapshot.data! as dynamic).docs[index]['postUrl'],
-                    fit: BoxFit.cover,
-                  ),
-                  mainAxisSpacing: 8.0,
-                  crossAxisSpacing: 8.0,
-                );
-              },
-            ),
+                },
+              ),
+      ),
     );
   }
 }

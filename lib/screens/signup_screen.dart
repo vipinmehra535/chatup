@@ -120,9 +120,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         )
                       : const CircleAvatar(
                           radius: 64,
-                          backgroundImage: NetworkImage(
-                              'https://i.stack.imgur.com/l60Hf.png'),
-                          backgroundColor: Colors.red,
+                          // backgroundImage: NetworkImage(
+                          //     'https://i.stack.imgur.com/l60Hf.png'),
+                          backgroundColor: Colors.grey,
                         ),
                   Positioned(
                     bottom: -10,
