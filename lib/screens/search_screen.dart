@@ -45,12 +45,16 @@ class _SearchScreenState extends State<SearchScreen> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.none) {
                   return const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
                   );
                 } else if (snapshot.connectionState ==
                     ConnectionState.waiting) {
                   return const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
                   );
                 } else {
                   if (!snapshot.hasData) {
@@ -64,7 +68,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       return InkWell(
                         onTap: () => Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => Profile(
+                            builder: (context) => ProfileScreen(
                               uid: (snapshot.data! as dynamic).docs[index]
                                   ['uid'],
                             ),

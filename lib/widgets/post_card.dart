@@ -1,19 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone_flutter/model/user.dart' as model;
+import 'package:instagram_clone_flutter/model/user.dart';
 import 'package:instagram_clone_flutter/providers/user_provider.dart';
 import 'package:instagram_clone_flutter/resources/firebase_methods.dart';
 import 'package:instagram_clone_flutter/screens/comments_screen.dart';
 import 'package:instagram_clone_flutter/utils/color.dart';
-import 'package:instagram_clone_flutter/utils/global_variables.dart';
-
 import 'package:instagram_clone_flutter/utils/utils.dart';
 import 'package:instagram_clone_flutter/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class PostCard extends StatefulWidget {
-  final snap;
+  final dynamic snap;
   const PostCard({
     Key? key,
     required this.snap,
@@ -24,146 +23,114 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
-  int commentLen = 0;
   bool isLikeAnimating = false;
+  int commentLen = 0;
+
+  User? user;
 
   @override
   void initState() {
+    getComments();
+
     super.initState();
-    fetchCommentLen();
   }
 
-  fetchCommentLen() async {
+  void getComments() async {
     try {
       QuerySnapshot snap = await FirebaseFirestore.instance
           .collection('posts')
           .doc(widget.snap['postId'])
           .collection('comments')
           .get();
-      commentLen = snap.docs.length;
-    } catch (err) {
-      showSnackBar(
-        err.toString(),
-        context,
-      );
-    }
-    setState(() {});
-  }
 
-  // deletePost(String postId) async {
-  //   try {
-  //     await FireStoreMethods().deletePost(postId);
-  //   } catch (err) {
-  //     showSnackBar(
-  //       context,
-  //       err.toString(),
-  //     );
-  //   }
-  // }
+      commentLen = snap.docs.length;
+      setState(() {});
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final model.User user = Provider.of<UserProvider>(context).getUser;
-    final width = MediaQuery.of(context).size.width;
-
+    user = Provider.of<UserProvider>(context).getUser;
+    // return user == null
+    //     ? const Center(child: CircularProgressIndicator())
+    //     :
     return Container(
-      // boundary needed for web
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: width > webScreenSize ? secondaryColor : mobileBackgroundColor,
-        ),
-        color: mobileBackgroundColor,
-      ),
-      padding: const EdgeInsets.symmetric(
-        vertical: 10,
-      ),
+      color: mobileBackgroundColor,
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         children: [
-          // HEADER SECTION OF THE POST
+          //Header Section
           Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: 4,
-              horizontal: 16,
-            ).copyWith(right: 0),
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16)
+                .copyWith(right: 0),
             child: Row(
-              children: <Widget>[
+              children: [
                 CircleAvatar(
                   radius: 16,
                   backgroundImage: NetworkImage(
-                    widget.snap['profImage'].toString(),
+                    widget.snap["profImage"],
                   ),
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 8,
-                    ),
+                    padding: const EdgeInsets.only(left: 8),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
                         Text(
-                          widget.snap['username'].toString(),
+                          "${widget.snap['username']}",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
                 ),
-                widget.snap['uid'].toString() == user.uid
-                    ? IconButton(
-                        onPressed: () {
-                          showDialog(
-                            useRootNavigator: false,
-                            context: context,
-                            builder: (context) {
-                              return Dialog(
-                                child: ListView(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 16),
-                                    shrinkWrap: true,
-                                    children: [
-                                      'Delete',
-                                    ]
-                                        .map(
-                                          (e) => InkWell(
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 12,
-                                                        horizontal: 16),
-                                                child: Text(e),
-                                              ),
-                                              onTap: () {
-                                                // deletePost(
-                                                //   widget.snap['postId']
-                                                //       .toString(),
-                                                // );
-                                                // remove the dialog box
-                                                Navigator.of(context).pop();
-                                              }),
-                                        )
-                                        .toList()),
-                              );
-                            },
-                          );
-                        },
-                        icon: const Icon(Icons.more_vert),
-                      )
-                    : Container(),
+                IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => Dialog(
+                          child: ListView(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shrinkWrap: true,
+                            children: ['Delete']
+                                .map(
+                                  (e) => InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 12, horizontal: 16),
+                                      child: Text(e),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.more_vert))
               ],
             ),
           ),
+
           // IMAGE SECTION OF THE POST
           GestureDetector(
-            onDoubleTap: () {
-              FirestoreMethods().likePost(
+            onDoubleTap: () async {
+              await FirestoreMethods().likePost(
                 widget.snap['postId'].toString(),
-                user.uid,
+                user!.uid,
                 widget.snap['likes'],
               );
+
               setState(() {
                 isLikeAnimating = true;
               });
@@ -206,10 +173,10 @@ class _PostCardState extends State<PostCard> {
           Row(
             children: <Widget>[
               LikeAnimation(
-                isAnimating: widget.snap['likes'].contains(user.uid),
+                isAnimating: widget.snap['likes'].contains(user!.uid),
                 smallLike: true,
                 child: IconButton(
-                  icon: widget.snap['likes'].contains(user.uid)
+                  icon: widget.snap['likes'].contains(user!.uid)
                       ? const Icon(
                           Icons.favorite,
                           color: Colors.red,
@@ -217,25 +184,29 @@ class _PostCardState extends State<PostCard> {
                       : const Icon(
                           Icons.favorite_border,
                         ),
-                  onPressed: () => FirestoreMethods().likePost(
-                    widget.snap['postId'].toString(),
-                    user.uid,
-                    widget.snap['likes'],
-                  ),
+                  onPressed: () async {
+                    await FirestoreMethods().likePost(
+                        widget.snap['postId'].toString(),
+                        user!.uid,
+                        widget.snap['likes']);
+                  },
                 ),
               ),
               IconButton(
-                icon: const Icon(
-                  Icons.comment_outlined,
-                ),
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => CommentsScreen(
-                      snap: widget.snap['postId'].toString(),
-                    ),
+                  icon: const Icon(
+                    Icons.comment_outlined,
                   ),
-                ),
-              ),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return CommentsScreen(
+                            snap: widget.snap,
+                          );
+                        },
+                      ),
+                    );
+                  }),
               IconButton(
                   icon: const Icon(
                     Icons.send,
@@ -256,15 +227,18 @@ class _PostCardState extends State<PostCard> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                DefaultTextStyle(
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(fontWeight: FontWeight.w800),
-                    child: Text(
-                      '${widget.snap['likes'].length} likes',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    )),
+                widget.snap['likes'].contains(user!.uid)
+                    ? DefaultTextStyle(
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall!
+                            .copyWith(fontWeight: FontWeight.w800),
+                        child: Text(
+                          '${widget.snap['likes'].length} likes',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      )
+                    : Container(),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(
@@ -288,24 +262,23 @@ class _PostCardState extends State<PostCard> {
                   ),
                 ),
                 InkWell(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Text(
-                      'View all $commentLen comments',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: secondaryColor,
-                      ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: commentLen == 0
+                          ? Container()
+                          : Text(
+                              "View all ${commentLen.toString()} comments",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: secondaryColor,
+                              ),
+                            ),
                     ),
-                  ),
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => CommentsScreen(
-                        snap: widget.snap['postId'].toString(),
-                      ),
-                    ),
-                  ),
-                ),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => CommentsScreen(snap: widget.snap),
+                      ));
+                    }),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Text(
