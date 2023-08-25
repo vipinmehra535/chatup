@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:instagram_clone_flutter/providers/navigation_provider.dart';
 import 'package:instagram_clone_flutter/providers/user_provider.dart';
 import 'package:instagram_clone_flutter/responsive/mobile_screen_layout.dart';
 import 'package:instagram_clone_flutter/responsive/responsive_layout_srceen.dart';
@@ -20,7 +21,9 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => UserProvider()),
+        ListenableProvider<UserProvider>(create: (context) => UserProvider()),
+        ListenableProvider<NavigationProvider>(
+            create: (context) => NavigationProvider()),
       ],
       child: const MyApp(),
     ),
