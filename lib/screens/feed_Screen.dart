@@ -32,7 +32,9 @@ class _FeedScreenState extends State<FeedScreen> {
           )
         ],
       ),
-      body: StreamBuilder(
+      body: 
+      
+      StreamBuilder(
         stream: firestore
             .collection('posts')
             .orderBy('datePublished', descending: true)
