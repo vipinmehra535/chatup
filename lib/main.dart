@@ -2,13 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:instagram_clone_flutter/providers/navigation_provider.dart';
-import 'package:instagram_clone_flutter/providers/user_provider.dart';
-import 'package:instagram_clone_flutter/responsive/mobile_screen_layout.dart';
-import 'package:instagram_clone_flutter/responsive/responsive_layout_srceen.dart';
-import 'package:instagram_clone_flutter/responsive/web_screen_layout.dart';
-import 'package:instagram_clone_flutter/screens/login_screen.dart';
-import 'package:instagram_clone_flutter/utils/color.dart';
+import 'package:chatup/providers/navigation_provider.dart';
+import 'package:chatup/providers/user_provider.dart';
+import 'package:chatup/responsive/mobile_screen_layout.dart';
+import 'package:chatup/responsive/responsive_layout_screen.dart';
+import 'package:chatup/responsive/web_screen_layout.dart';
+import 'package:chatup/screens/login_screen.dart';
+import 'package:chatup/utils/color.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 

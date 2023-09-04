@@ -2,11 +2,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:instagram_clone_flutter/model/user.dart';
-import 'package:instagram_clone_flutter/providers/user_provider.dart';
-import 'package:instagram_clone_flutter/resources/firebase_methods.dart';
-import 'package:instagram_clone_flutter/utils/color.dart';
-import 'package:instagram_clone_flutter/utils/utils.dart';
+import 'package:chatup/model/user.dart';
+import 'package:chatup/providers/user_provider.dart';
+import 'package:chatup/resources/firebase_methods.dart';
+import 'package:chatup/utils/color.dart';
+import 'package:chatup/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class AddPostScreen extends StatefulWidget {
@@ -114,7 +114,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    final User user = Provider.of<UserProvider>(context).getUser;
+    final User? user = Provider.of<UserProvider>(context).getUser;
 
     return _file == null
         ? Center(
@@ -140,7 +140,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               actions: [
                 TextButton(
                   onPressed: () =>
-                      postImage(user.uid, user.username, user.photoUrl),
+                      postImage(user!.uid, user.username, user.photoUrl),
                   child: const Text(
                     'Post',
                     style: TextStyle(
@@ -162,7 +162,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CircleAvatar(
-                      backgroundImage: NetworkImage(user.photoUrl),
+                      backgroundImage: NetworkImage(user!.photoUrl),
                     ),
                     SizedBox(
                       width: size.width * 0.3,

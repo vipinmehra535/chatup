@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:instagram_clone_flutter/utils/color.dart';
-import 'package:instagram_clone_flutter/widgets/post_card.dart';
+import 'package:chatup/utils/color.dart';
+import 'package:chatup/widgets/post_card.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({Key? key}) : super(key: key);
@@ -32,9 +32,7 @@ class _FeedScreenState extends State<FeedScreen> {
           )
         ],
       ),
-      body: 
-      
-      StreamBuilder(
+      body: StreamBuilder(
         stream: firestore
             .collection('posts')
             .orderBy('datePublished', descending: true)

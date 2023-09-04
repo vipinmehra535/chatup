@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:instagram_clone_flutter/screens/add_post_screen.dart';
-import 'package:instagram_clone_flutter/screens/feed_Screen.dart';
-import 'package:instagram_clone_flutter/screens/profile_screen.dart';
-import 'package:instagram_clone_flutter/screens/search_screen.dart';
+import 'package:chatup/screens/add_post_screen.dart';
+import 'package:chatup/screens/feed_Screen.dart';
+import 'package:chatup/screens/profile_screen.dart';
+import 'package:chatup/screens/search_screen.dart';
 
 const webScreenSize = 600;
 

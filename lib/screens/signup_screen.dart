@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:instagram_clone_flutter/resources/auth_methods.dart';
-import 'package:instagram_clone_flutter/responsive/mobile_screen_layout.dart';
-import 'package:instagram_clone_flutter/responsive/responsive_layout_srceen.dart';
-import 'package:instagram_clone_flutter/responsive/web_screen_layout.dart';
-import 'package:instagram_clone_flutter/utils/color.dart';
-import 'package:instagram_clone_flutter/utils/utils.dart';
-import 'package:instagram_clone_flutter/widgets/text_field_input.dart';
+import 'package:chatup/resources/auth_methods.dart';
+import 'package:chatup/responsive/mobile_screen_layout.dart';
+import 'package:chatup/responsive/responsive_layout_screen.dart';
+import 'package:chatup/responsive/web_screen_layout.dart';
+import 'package:chatup/utils/color.dart';
+import 'package:chatup/utils/utils.dart';
+import 'package:chatup/widgets/text_field_input.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
