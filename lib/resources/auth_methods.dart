@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:instagram_clone_flutter/model/user.dart' as model;
-import 'package:instagram_clone_flutter/resources/storage_methods.dart';
+import 'package:chatup/model/user.dart' as model;
+import 'package:chatup/resources/storage_methods.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;

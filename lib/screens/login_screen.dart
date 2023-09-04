@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:instagram_clone_flutter/resources/auth_methods.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
+import 'package:chatup/resources/auth_methods.dart';
 
-import 'package:instagram_clone_flutter/screens/signup_screen.dart';
-import 'package:instagram_clone_flutter/utils/color.dart';
-import 'package:instagram_clone_flutter/utils/utils.dart';
-import 'package:instagram_clone_flutter/widgets/text_field_input.dart';
+import 'package:chatup/screens/signup_screen.dart';
+import 'package:chatup/utils/color.dart';
+import 'package:chatup/utils/utils.dart';
+import 'package:chatup/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -60,11 +60,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 flex: 2,
                 child: Container(),
               ),
-              SvgPicture.asset(
-                'assets/ic_instagram.svg',
-                color: primaryColor,
-                height: 64,
-              ),
+              // SvgPicture.asset(
+              //   'assets/ic_instagram.svg',
+              //   color: primaryColor,
+              //   height: 64,
+              // ),
               const SizedBox(
                 height: 64,
               ),

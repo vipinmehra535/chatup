@@ -47,30 +47,30 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBwqZnxp8c0_Dw6k6QTQFXr7Y3HuyjpP38',
-    appId: '1:279778724826:web:1f0f3b2d343d7fa8394ee3',
-    messagingSenderId: '279778724826',
-    projectId: 'instagram-tut-da314',
-    authDomain: 'instagram-tut-da314.firebaseapp.com',
-    storageBucket: 'instagram-tut-da314.appspot.com',
+    apiKey: 'AIzaSyDfTHgUy5og0R0DfATFqNVEFfFRmA63xPM',
+    appId: '1:949303853336:web:16dc3564cd01264409de6d',
+    messagingSenderId: '949303853336',
+    projectId: 'chatup-d9d43',
+    authDomain: 'chatup-d9d43.firebaseapp.com',
+    storageBucket: 'chatup-d9d43.appspot.com',
+    measurementId: 'G-VTRTGFM7ZB',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBO074zoEq7fJ13kMhxNmYvBTYHpMA4PGo',
-    appId: '1:279778724826:android:96ebe556c6917fa3394ee3',
-    messagingSenderId: '279778724826',
-    projectId: 'instagram-tut-da314',
-    storageBucket: 'instagram-tut-da314.appspot.com',
+    apiKey: 'AIzaSyDFP3IzFZL6zxQHCteYADun5I2BS1npLio',
+    appId: '1:949303853336:android:aa84b03ad11b10d109de6d',
+    messagingSenderId: '949303853336',
+    projectId: 'chatup-d9d43',
+    storageBucket: 'chatup-d9d43.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAix4xaeGkDgfIOgLynUIRa7uCz_q_2JuE',
-    appId: '1:279778724826:ios:d40ac53cdf09586c394ee3',
-    messagingSenderId: '279778724826',
-    projectId: 'instagram-tut-da314',
-    storageBucket: 'instagram-tut-da314.appspot.com',
-    androidClientId: '279778724826-ugr4n48odbpu9mcfej42huccss5g5mfb.apps.googleusercontent.com',
-    iosClientId: '279778724826-g0m9sn7jbnf1qlo76udhdgjej62m1e0k.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAPDzP4fDklnhfjVq6ieQm_PP_RznHZiHw',
+    appId: '1:949303853336:ios:851bf56593a63f7409de6d',
+    messagingSenderId: '949303853336',
+    projectId: 'chatup-d9d43',
+    storageBucket: 'chatup-d9d43.appspot.com',
+    iosClientId: '949303853336-genh1on5tlnn2bs756crensr0270jero.apps.googleusercontent.com',
     iosBundleId: 'com.example.instagramCloneFlutter',
   );
 }

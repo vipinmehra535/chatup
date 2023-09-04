@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone_flutter/model/user.dart';
-import 'package:instagram_clone_flutter/providers/user_provider.dart';
-import 'package:instagram_clone_flutter/resources/firebase_methods.dart';
-import 'package:instagram_clone_flutter/screens/comments_screen.dart';
-import 'package:instagram_clone_flutter/utils/color.dart';
-import 'package:instagram_clone_flutter/utils/utils.dart';
-import 'package:instagram_clone_flutter/widgets/like_animation.dart';
+import 'package:chatup/model/user.dart';
+import 'package:chatup/providers/user_provider.dart';
+import 'package:chatup/resources/firebase_methods.dart';
+import 'package:chatup/screens/comments_screen.dart';
+import 'package:chatup/utils/color.dart';
+import 'package:chatup/utils/utils.dart';
+import 'package:chatup/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 

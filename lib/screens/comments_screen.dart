@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone_flutter/model/user.dart';
-import 'package:instagram_clone_flutter/providers/user_provider.dart';
-import 'package:instagram_clone_flutter/resources/firebase_methods.dart';
-import 'package:instagram_clone_flutter/utils/color.dart';
-import 'package:instagram_clone_flutter/widgets/comment_card.dart';
+import 'package:chatup/model/user.dart';
+import 'package:chatup/providers/user_provider.dart';
+import 'package:chatup/resources/firebase_methods.dart';
+import 'package:chatup/utils/color.dart';
+import 'package:chatup/widgets/comment_card.dart';
 import 'package:provider/provider.dart';
 
 class CommentsScreen extends StatefulWidget {
@@ -28,7 +28,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<UserProvider>(context).getUser;
+    User user = Provider.of<UserProvider>(context).getUser!;
 
     return Scaffold(
       appBar: AppBar(

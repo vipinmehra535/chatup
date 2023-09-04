@@ -28,10 +28,12 @@ class User {
         "followers": followers,
         "following": following,
       };
+
+      
 // promblem here on signUp
 
-  static User fromSnap(DocumentSnapshot snap) {
-    var snapshot = snap.data() as Map<String, dynamic>;
+  static User fromSnap(DocumentSnapshot? snap) {
+    var snapshot = (snap!.data() ?? {}) as Map<String, dynamic>;
 
     return User(
       email: snapshot['email'],
