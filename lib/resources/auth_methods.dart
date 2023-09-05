@@ -11,10 +11,10 @@ class AuthMethods {
   // Getting User Details from the firebase
 
   Future<model.User> getUserDetails() async {
-    User currentUser = _auth.currentUser!;
+    // User? currentUser = _auth.currentUser;
 
     DocumentSnapshot snap =
-        await _firestore.collection('users').doc(currentUser.uid).get();
+        await _firestore.collection('users').doc(_auth.currentUser!.uid).get();
 
     return model.User.fromSnap(snap);
   }
@@ -25,53 +25,46 @@ class AuthMethods {
     required String password,
     required String username,
     required String bio,
-    required Uint8List? file,
+    required Uint8List file,
   }) async {
-    String res = "Some error occurred";
-
+    String res = "Some error Occurred";
     try {
       if (email.isNotEmpty ||
           password.isNotEmpty ||
           username.isNotEmpty ||
-          bio.isNotEmpty) {
-        //register user
+          bio.isNotEmpty ||
+          file != null) {
+        // registering user in auth with email and password
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
-            email: email, password: password);
-
-        if (kDebugMode) {
-          print(cred.user!.uid);
-        }
+          email: email,
+          password: password,
+        );
 
         String photoUrl = await StorageMethods()
-            .uploadImageToStroage('profilePics', file!, false);
+            .uploadImageToStroage('profilePics', file, false);
 
-        // add user to our database
         model.User user = model.User(
-          email: email,
+          username: username,
           uid: cred.user!.uid,
           photoUrl: photoUrl,
-          username: username,
+          email: email,
           bio: bio,
           followers: [],
           following: [],
         );
 
-        await _firestore.collection('users').doc(cred.user!.uid).set(
-              user.toJson(),
-            );
+        // adding user in our database
+        await _firestore
+            .collection("users")
+            .doc(cred.user!.uid)
+            .set(user.toJson());
 
-        // await _firestore.collection('users').add({
-        //   'username': username,
-        //   'uid': cred.user!.uid,
-        //   'email': email,
-        //   'bio': bio,
-        //   'followers': [],
-        //   'following': [],
-        // });
         res = "success";
+      } else {
+        res = "Please enter all the fields";
       }
     } catch (err) {
-      res = err.toString();
+      return err.toString();
     }
     return res;
   }
@@ -98,5 +91,9 @@ class AuthMethods {
     }
 
     return res;
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }

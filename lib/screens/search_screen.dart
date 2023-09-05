@@ -129,7 +129,7 @@ class _SearchScreenState extends State<SearchScreen> {
             : FutureBuilder(
                 future: FirebaseFirestore.instance
                     .collection('posts')
-                    .orderBy('datePublished')
+                    .orderBy('datePublished', descending: true)
                     .get(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {

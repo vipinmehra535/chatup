@@ -46,35 +46,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
     void signUpUser() async {
+      // set loading to true
       setState(() {
         isLoading = true;
       });
-      String res = await AuthMethods().signUpUser(
-        email: _emailController.text,
-        password: _passwordController.text,
-        username: _usernameController.text,
-        bio: _bioController.text,
-        file: _image,
-      );
-      setState(() {
-        isLoading = false;
-      });
-      if (res != 'success') {
-        if (context.mounted) {
-          showSnackBar(res, context);
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) {
-              return const ResponsiveLayout(
-                webScreenLayout: WebScreenLayout(),
-                mobileScreenLayout: MobileScreenLayout(),
-              );
-            },
-          ));
-        }
-      }
 
-      if (kDebugMode) {
-        print("Done :$res");
+      // signup user using our authmethodds
+      String res = await AuthMethods().signUpUser(
+          email: _emailController.text,
+          password: _passwordController.text,
+          username: _usernameController.text,
+          bio: _bioController.text,
+          file: _image!);
+      // if string returned is sucess, user has been created
+      if (res == "success") {
+        setState(() {
+          isLoading = false;
+        });
+        // navigate to the home screen
+        if (context.mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const ResponsiveLayout(
+                mobileScreenLayout: MobileScreenLayout(),
+                webScreenLayout: WebScreenLayout(),
+              ),
+            ),
+          );
+        }
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        // show the error
+        if (context.mounted) {
+          showSnackBar(
+            res,
+            context,
+          );
+        }
       }
     }
 

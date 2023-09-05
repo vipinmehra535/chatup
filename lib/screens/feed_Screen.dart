@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
 import 'package:chatup/utils/color.dart';
 import 'package:chatup/widgets/post_card.dart';
 
@@ -20,7 +20,9 @@ class _FeedScreenState extends State<FeedScreen> {
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
         centerTitle: false,
-        title: const Text("chatUp",),
+        title: const Text(
+          "chatUp",
+        ),
 
         //  SvgPicture.asset(
         //   "assets/ic_instagram.svg",
