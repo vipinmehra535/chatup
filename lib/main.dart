@@ -1,6 +1,8 @@
+import 'dart:html';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:ui_web' as ui;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:chatup/providers/navigation_provider.dart';
 import 'package:chatup/providers/user_provider.dart';
@@ -18,6 +20,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  ui.platformViewRegistry.registerViewFactory(
+      'example', (_) => DivElement()..innerText = 'Hello, HTML!');
   runApp(
     MultiProvider(
       providers: [
@@ -37,7 +41,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Instagram Clone',
+      title: 'chatUp',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: mobileBackgroundColor,

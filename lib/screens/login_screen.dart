@@ -1,3 +1,4 @@
+import 'package:chatup/utils/global_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:chatup/resources/auth_methods.dart';
 import 'package:chatup/screens/signup_screen.dart';
@@ -46,10 +47,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
+          padding: size.width > webScreenSize
+              ? EdgeInsets.symmetric(horizontal: size.width / 3)
+              : const EdgeInsets.symmetric(horizontal: 32),
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

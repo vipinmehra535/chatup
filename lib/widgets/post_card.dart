@@ -55,7 +55,7 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
-    user = Provider.of<UserProvider>(context).getUser;
+    user = Provider.of<UserProvider>(context).getUser!;
     return user == null
         ? const Center(
             child: CircularProgressIndicator(

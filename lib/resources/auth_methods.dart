@@ -32,8 +32,7 @@ class AuthMethods {
       if (email.isNotEmpty ||
           password.isNotEmpty ||
           username.isNotEmpty ||
-          bio.isNotEmpty ||
-          file != null) {
+          bio.isNotEmpty) {
         // registering user in auth with email and password
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
           email: email,
@@ -43,21 +42,31 @@ class AuthMethods {
         String photoUrl = await StorageMethods()
             .uploadImageToStroage('profilePics', file, false);
 
-        model.User user = model.User(
-          username: username,
-          uid: cred.user!.uid,
-          photoUrl: photoUrl,
-          email: email,
-          bio: bio,
-          followers: [],
-          following: [],
-        );
+        // model.User user = model.User(
+        //   username: username,
+        //   uid: cred.user!.uid,
+        //   photoUrl: photoUrl,
+        //   email: email,
+        //   bio: bio,
+        //   followers: [],
+        //   following: [],
+        // );
 
         // adding user in our database
-        await _firestore
-            .collection("users")
-            .doc(cred.user!.uid)
-            .set(user.toJson());
+        // await _firestore
+        //     .collection("users")
+        //     .doc(cred.user!.uid)
+        //     .set(user.toJson());
+
+        await _firestore.collection("users").doc(cred.user!.uid).set({
+          "username": username,
+          "uid": cred.user!.uid,
+          "photoUrl": photoUrl,
+          "email": email,
+          "bio": bio,
+          "followers": [],
+          "following": [],
+        });
 
         res = "success";
       } else {
