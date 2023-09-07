@@ -1,4 +1,5 @@
 import 'package:chatup/utils/color.dart';
+import 'package:chatup/utils/global_variables.dart';
 import 'package:flutter/material.dart';
 
 class WebScreenLayout extends StatefulWidget {
@@ -31,6 +32,14 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
     });
   }
 
+  void navigationTapped(int page) {
+    //Animating Page
+    pageController.jumpToPage(page);
+    setState(() {
+      _page = page;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +60,7 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
             splashColor: Colors.transparent,
             hoverColor: Colors.transparent,
             highlightColor: Colors.transparent,
-            onPressed: () {},
+            onPressed: () => navigationTapped(0),
             icon: Icon(
               Icons.home,
               color: (_page == 0) ? primaryColor : secondaryColor,
@@ -62,7 +71,7 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
             splashColor: Colors.transparent,
             hoverColor: Colors.transparent,
             highlightColor: Colors.transparent,
-            onPressed: () {},
+            onPressed: () => navigationTapped(1),
             icon: Icon(
               Icons.search,
               color: (_page == 1) ? primaryColor : secondaryColor,
@@ -73,7 +82,7 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             hoverColor: Colors.transparent,
-            onPressed: () {},
+            onPressed: () => navigationTapped(2),
             icon: Icon(
               Icons.add_reaction_outlined,
               color: (_page == 2) ? primaryColor : secondaryColor,
@@ -84,7 +93,7 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
             hoverColor: Colors.transparent,
-            onPressed: () {},
+            onPressed: () => navigationTapped(3),
             icon: Icon(
               Icons.person,
               color: (_page == 3) ? primaryColor : secondaryColor,
@@ -92,7 +101,11 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
           )
         ],
       ),
-      body: Center(child: Text("This Is web")),
+      body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: pageController,
+        children: homeScreenItems,
+      ),
     );
   }
 }

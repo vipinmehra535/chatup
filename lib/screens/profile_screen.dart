@@ -1,5 +1,6 @@
 import 'package:chatup/resources/auth_methods.dart';
 import 'package:chatup/resources/firebase_methods.dart';
+import 'package:chatup/screens/login_screen.dart';
 import 'package:chatup/utils/color.dart';
 import 'package:chatup/utils/utils.dart';
 import 'package:chatup/widgets/follow_button.dart';
@@ -42,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       // get post lENGTH
       var postSnap = await FirebaseFirestore.instance
           .collection('posts')
-          .where('uid', isEqualTo: widget.uid)
+          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get();
 
       postLen = postSnap.docs.length;
@@ -54,10 +55,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .contains(FirebaseAuth.instance.currentUser!.uid);
       setState(() {});
     } catch (e) {
-      showSnackBar(
-        e.toString(),
-        context,
-      );
+      if (context.mounted) {
+        showSnackBar(
+          e.toString(),
+          context,
+        );
+      }
     }
     setState(() {
       isLoading = false;
@@ -121,15 +124,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             borderColor: Colors.grey,
                                             function: () async {
                                               await AuthMethods().signOut();
-                                              // if (context.mounted) {
-                                              //   Navigator.of(context)
-                                              //       .pushReplacement(
-                                              //     MaterialPageRoute(
-                                              //       builder: (context) =>
-                                              //           const LoginScreen(),
-                                              //     ),
-                                              //   );
-                                              // }
+                                              if (context.mounted) {
+                                                Navigator.of(context)
+                                                    .pushReplacement(
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const LoginScreen(),
+                                                  ),
+                                                );
+                                              }
                                             },
                                           )
                                         : isFollowing

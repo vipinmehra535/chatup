@@ -1,3 +1,4 @@
+import 'package:chatup/utils/global_variables.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,12 @@ class _PostCardState extends State<PostCard> {
       commentLen = snap.docs.length;
       setState(() {});
     } catch (e) {
-      showSnackBar(e.toString(), context);
+      if (context.mounted) {
+        showSnackBar(
+          e.toString(),
+          context,
+        );
+      }
       if (kDebugMode) {
         print(e.toString());
       }
@@ -56,13 +62,21 @@ class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     user = Provider.of<UserProvider>(context).getUser!;
+
+    final Size size = MediaQuery.sizeOf(context);
     return user == null
         ? const Center(
             child: CircularProgressIndicator(
             color: Colors.black,
           ))
         : Container(
-            color: mobileBackgroundColor,
+            decoration: BoxDecoration(
+              color: mobileBackgroundColor,
+              border: Border.all(
+                  color: size.width > webScreenSize
+                      ? secondaryColor
+                      : webBackgroundColor),
+            ),
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Column(
               children: [
@@ -232,8 +246,10 @@ class _PostCardState extends State<PostCard> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      widget.snap['likes'].contains(user!.uid)
-                          ? DefaultTextStyle(
+                      widget.snap['likes'].length == 0
+                          // widget.snap['likes'].contains(user!.uid)
+                          ? Container()
+                          : DefaultTextStyle(
                               style: Theme.of(context)
                                   .textTheme
                                   .titleSmall!
@@ -242,8 +258,7 @@ class _PostCardState extends State<PostCard> {
                                 '${widget.snap['likes'].length} likes',
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
-                            )
-                          : Container(),
+                            ),
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.only(
