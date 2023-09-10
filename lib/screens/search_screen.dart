@@ -1,4 +1,6 @@
+import 'package:chatup/utils/global_variables.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:chatup/screens/profile_screen.dart';
@@ -17,21 +19,25 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: mobileBackgroundColor,
-          title: Form(
-            child: TextFormField(
-              controller: searchController,
-              decoration: const InputDecoration(labelText: 'Search'),
-              onFieldSubmitted: (String _) {
-                print("sub ${_}");
-                setState(() {
-                  isShowUsers = true;
-                });
-              },
+          title: TextFormField(
+            controller: searchController,
+            decoration: const InputDecoration(
+              labelText: 'Search',
             ),
+            onFieldSubmitted: (String _) {
+              if (kDebugMode) {
+                print("sub $_");
+              }
+              setState(() {
+                isShowUsers = true;
+              });
+            },
           ),
         ),
         body: isShowUsers
@@ -139,13 +145,31 @@ class _SearchScreenState extends State<SearchScreen> {
                   }
 
                   return MasonryGridView.count(
-                    crossAxisCount: 3,
-                    itemCount: (snapshot.data! as dynamic).docs.length,
-                    itemBuilder: (context, index) => Image.network(
-                      (snapshot.data! as dynamic).docs[index]['postUrl'],
-                      fit: BoxFit.cover,
+                    padding: EdgeInsets.symmetric(
+                      horizontal:
+                          size.width > webScreenSize ? size.width * 0.3 : 0,
+                      vertical: size.width > webScreenSize ? 15 : 0,
                     ),
-                    mainAxisSpacing: 8.0,
+                    crossAxisCount: 2,
+                    itemCount: (snapshot.data! as dynamic).docs.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ProfileScreen(
+                                  uid: (snapshot.data! as dynamic).docs[index]
+                                      ['uid']),
+                            ),
+                          );
+                        },
+                        child: Image.network(
+                          (snapshot.data! as dynamic).docs[index]['postUrl'],
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    },
+                    mainAxisSpacing: 8,
                     crossAxisSpacing: 8.0,
                   );
                 },

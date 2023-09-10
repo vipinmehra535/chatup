@@ -1,4 +1,3 @@
-import 'package:chatup/utils/global_variables.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
@@ -93,9 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
-            padding: size.width > webScreenSize
-                ? EdgeInsets.symmetric(horizontal: size.width / 3)
-                : const EdgeInsets.symmetric(horizontal: 32),
+            padding: const EdgeInsets.symmetric(horizontal: 32),
             height: size.height,
             width: double.infinity,
             child: Column(
@@ -105,8 +102,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   flex: 2,
                   child: Container(),
                 ),
-                // SvgPicture.asset('assets/ic_instagram.svg',
-                //     color: primaryColor, height: 64),
                 const SizedBox(height: 64),
                 Stack(
                   children: [

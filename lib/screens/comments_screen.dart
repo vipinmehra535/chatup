@@ -28,8 +28,8 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<UserProvider>(context).getUser!;
-
+    User? user = Provider.of<UserProvider>(context).getUser;
+//dekh rha h ???? ye dekh ab  agar me yaha ? ye use krta hu a
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
@@ -53,7 +53,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
             itemCount: (snapshot.data! as dynamic).docs.length,
             itemBuilder: (context, index) {
               return CommentCard(
-                snap: (snapshot.data! as dynamic).docs[index].data(),
+                snap: (snapshot.data as dynamic).docs[index].data(),
               );
             },
           );
@@ -69,7 +69,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
             children: [
               CircleAvatar(
                 radius: 18,
-                backgroundImage: NetworkImage(user.photoUrl),
+                backgroundImage: NetworkImage(user!.photoUrl),
               ),
               Expanded(
                 child: Padding(

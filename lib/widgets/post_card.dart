@@ -47,7 +47,7 @@ class _PostCardState extends State<PostCard> {
       commentLen = snap.docs.length;
       setState(() {});
     } catch (e) {
-      if (context.mounted) {
+      if (mounted) {
         showSnackBar(
           e.toString(),
           context,
@@ -61,7 +61,7 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
-    user = Provider.of<UserProvider>(context).getUser!;
+    user = Provider.of<UserProvider>(context).getUser;
 
     final Size size = MediaQuery.sizeOf(context);
     return user == null
@@ -112,28 +112,28 @@ class _PostCardState extends State<PostCard> {
                       ),
                       IconButton(
                           onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => Dialog(
-                                child: ListView(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 16),
-                                  shrinkWrap: true,
-                                  children: ['Delete']
-                                      .map(
-                                        (e) => InkWell(
-                                          onTap: () {},
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 12, horizontal: 16),
-                                            child: Text(e),
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
-                              ),
-                            );
+                            // showDialog(
+                            //   context: context,
+                            //   builder: (context) => Dialog(
+                            //     child: ListView(
+                            //       padding:
+                            //           const EdgeInsets.symmetric(vertical: 16),
+                            //       shrinkWrap: true,
+                            //       children: ['Delete']
+                            //           .map(
+                            //             (e) => InkWell(
+                            //               onTap: () {},
+                            //               child: Container(
+                            //                 padding: const EdgeInsets.symmetric(
+                            //                     vertical: 12, horizontal: 16),
+                            //                 child: Text(e),
+                            //               ),
+                            //             ),
+                            //           )
+                            //           .toList(),
+                            //     ),
+                            //   ),
+                            // );
                           },
                           icon: const Icon(Icons.more_vert))
                     ],

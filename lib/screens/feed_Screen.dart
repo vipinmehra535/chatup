@@ -52,7 +52,9 @@ class _FeedScreenState extends State<FeedScreen> {
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
             );
           }
           return ScrollConfiguration(
@@ -70,7 +72,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     vertical: size.width > webScreenSize ? 15 : 0,
                   ),
                   child: PostCard(
-                    snap: snapshot.data!.docs[index].data(),
+                    snap: snapshot.data?.docs[index].data(),
                   ),
                 ),
               ),

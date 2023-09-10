@@ -19,20 +19,20 @@ class AuthMethods {
     return model.User.fromSnap(snap);
   }
 
-  //sign up user
   Future<String> signUpUser({
     required String email,
     required String password,
     required String username,
     required String bio,
-    required Uint8List file,
+    required Uint8List? file,
   }) async {
     String res = "Some error Occurred";
-    try {
-      if (email.isNotEmpty ||
-          password.isNotEmpty ||
-          username.isNotEmpty ||
-          bio.isNotEmpty) {
+
+    if (email.isNotEmpty ||
+        password.isNotEmpty ||
+        username.isNotEmpty ||
+        bio.isNotEmpty) {
+      try {
         // registering user in auth with email and password
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
           email: email,
@@ -40,41 +40,32 @@ class AuthMethods {
         );
 
         String photoUrl = await StorageMethods()
-            .uploadImageToStroage('profilePics', file, false);
+            .uploadImageToStroage('profilePics', file!, false);
 
-        // model.User user = model.User(
-        //   username: username,
-        //   uid: cred.user!.uid,
-        //   photoUrl: photoUrl,
-        //   email: email,
-        //   bio: bio,
-        //   followers: [],
-        //   following: [],
-        // );
+        model.User user = model.User(
+          username: username,
+          uid: cred.user!.uid,
+          photoUrl: photoUrl,
+          email: email,
+          bio: bio,
+          followers: [],
+          following: [],
+        );
 
         // adding user in our database
-        // await _firestore
-        //     .collection("users")
-        //     .doc(cred.user!.uid)
-        //     .set(user.toJson());
-
-        await _firestore.collection("users").doc(cred.user!.uid).set({
-          "username": username,
-          "uid": cred.user!.uid,
-          "photoUrl": photoUrl,
-          "email": email,
-          "bio": bio,
-          "followers": [],
-          "following": [],
-        });
+        await _firestore
+            .collection("users")
+            .doc(cred.user!.uid)
+            .set(user.toJson());
 
         res = "success";
-      } else {
-        res = "Please enter all the fields";
+      } catch (err) {
+        res = err.toString();
       }
-    } catch (err) {
-      return err.toString();
+    } else {
+      res = "Please enter all the fields";
     }
+
     return res;
   }
 
