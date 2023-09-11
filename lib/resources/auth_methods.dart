@@ -28,6 +28,44 @@ class AuthMethods {
   }) async {
     String res = "Some error Occurred";
 
+    // try {
+    //   if (email.isNotEmpty ||
+    //       password.isNotEmpty ||
+    //       username.isNotEmpty ||
+    //       bio.isNotEmpty ||
+    //       file != null) {
+    //     // registering user in auth with email and password
+    //     UserCredential cred = await _auth.createUserWithEmailAndPassword(
+    //       email: email,
+    //       password: password,
+    //     );
+
+    //     String photoUrl = await StorageMethods()
+    //         .uploadImageToStroage('profilePics', file!, false);
+
+    //     model.User user = model.User(
+    //       username: username,
+    //       uid: cred.user!.uid,
+    //       photoUrl: photoUrl,
+    //       email: email,
+    //       bio: bio,
+    //       followers: [],
+    //       following: [],
+    //     );
+
+    //     // adding user in our database
+    //     await _firestore
+    //         .collection("users")
+    //         .doc(cred.user!.uid)
+    //         .set(user.toJson());
+
+    //     res = "success";
+    //   } else {
+    //     res = "Please enter all the fields";
+    //   }
+    // } catch (e) {
+    //   res = e.toString();
+    // }
     if (email.isNotEmpty ||
         password.isNotEmpty ||
         username.isNotEmpty ||

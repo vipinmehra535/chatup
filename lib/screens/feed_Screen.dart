@@ -1,3 +1,4 @@
+import 'package:chatup/screens/chat_screen.dart';
 import 'package:chatup/utils/global_variables.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,9 @@ class _FeedScreenState extends State<FeedScreen> {
               // ),
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ChatScreen(),
+                  )),
                   icon: const Icon(Icons.messenger_outline),
                 )
               ],
