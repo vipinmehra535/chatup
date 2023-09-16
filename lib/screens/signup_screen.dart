@@ -179,7 +179,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                Flexible(flex: 2, child: Container()),
+                Flexible(
+                  flex: 2,
+                  child: Container(),
+                ),
               ],
             ),
           ),

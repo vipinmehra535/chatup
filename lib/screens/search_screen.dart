@@ -40,7 +40,7 @@ class _SearchScreenState extends State<SearchScreen> {
             },
           ),
         ),
-        body: isShowUsers
+        body: isShowUsers == true
             ? StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('users')
@@ -66,7 +66,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   } else if (snapshot.hasError) {
                     return const Center(child: Text("Some Error"));
                   } else {
-                    return (snapshot.data! as dynamic).docs.isEmpty
+                    return (snapshot.data! as dynamic).docs == null
                         ? const Center(child: Text("No User Found"))
                         : ListView.builder(
                             itemCount: (snapshot.data! as dynamic).docs.length,
