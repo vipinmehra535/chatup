@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:chatup/screens/profile_screen.dart';
+import 'package:chatup/screens/profile/profile_screen.dart';
 import 'package:chatup/utils/color.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -66,7 +66,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   } else if (snapshot.hasError) {
                     return const Center(child: Text("Some Error"));
                   } else {
-                    return (snapshot.data! as dynamic).docs == null
+                    return (snapshot.data! as dynamic).docs.isEmpty
                         ? const Center(child: Text("No User Found"))
                         : ListView.builder(
                             itemCount: (snapshot.data! as dynamic).docs.length,

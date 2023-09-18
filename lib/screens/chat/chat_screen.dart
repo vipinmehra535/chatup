@@ -1,6 +1,9 @@
-import 'package:chatup/screens/search_chat_screen.dart';
+// import 'package:chatup/model/user.dart';
+import 'package:chatup/screens/chat/chat_search_screen.dart';
 import 'package:chatup/utils/color.dart';
 import 'package:flutter/material.dart';
+// import 'package:chatup/providers/user_provider.dart';
+// import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -12,6 +15,8 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
+    // final User? user = Provider.of<UserProvider>(context).getUser;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,

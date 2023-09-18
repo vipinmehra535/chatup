@@ -26,77 +26,46 @@ class AuthMethods {
     required String bio,
     required Uint8List? file,
   }) async {
-    String res = "Some error Occurred";
+    String res = "Some error occurred";
 
-    // try {
-    //   if (email.isNotEmpty ||
-    //       password.isNotEmpty ||
-    //       username.isNotEmpty ||
-    //       bio.isNotEmpty ||
-    //       file != null) {
-    //     // registering user in auth with email and password
-    //     UserCredential cred = await _auth.createUserWithEmailAndPassword(
-    //       email: email,
-    //       password: password,
-    //     );
-
-    //     String photoUrl = await StorageMethods()
-    //         .uploadImageToStroage('profilePics', file!, false);
-
-    //     model.User user = model.User(
-    //       username: username,
-    //       uid: cred.user!.uid,
-    //       photoUrl: photoUrl,
-    //       email: email,
-    //       bio: bio,
-    //       followers: [],
-    //       following: [],
-    //     );
-
-    //     // adding user in our database
-    //     await _firestore
-    //         .collection("users")
-    //         .doc(cred.user!.uid)
-    //         .set(user.toJson());
-
-    //     res = "success";
-    //   } else {
-    //     res = "Please enter all the fields";
-    //   }
-    // } catch (e) {
-    //   res = e.toString();
-    // }
     if (email.isNotEmpty ||
         password.isNotEmpty ||
         username.isNotEmpty ||
         bio.isNotEmpty) {
       try {
-        // registering user in auth with email and password
-        UserCredential cred = await _auth.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
+        // Check if the username is already in use
+        bool isUsernameTaken = await isUsernameAlreadyTaken(username);
 
-        String photoUrl = await StorageMethods()
-            .uploadImageToStroage('profilePics', file!, false);
+        if (isUsernameTaken) {
+          res = "Username is already taken";
+        } else {
+          // registering user in auth with email and password
+          UserCredential cred = await _auth.createUserWithEmailAndPassword(
+            email: email,
+            password: password,
+          );
 
-        model.User user = model.User(
-          username: username,
-          uid: cred.user!.uid,
-          photoUrl: photoUrl,
-          email: email,
-          bio: bio,
-          followers: [],
-          following: [],
-        );
+          String photoUrl = await StorageMethods()
+              .uploadImageToStroage('profilePics', file!, false);
 
-        // adding user in our database
-        await _firestore
-            .collection("users")
-            .doc(cred.user!.uid)
-            .set(user.toJson());
+          model.User user = model.User(
+            username: username,
+            uid: cred.user!.uid,
+            photoUrl: photoUrl,
+            email: email,
+            bio: bio,
+            followers: [],
+            following: [],
+          );
 
-        res = "success";
+          // adding user in our database
+          await _firestore
+              .collection("users")
+              .doc(cred.user!.uid)
+              .set(user.toJson());
+
+          res = "success";
+        }
       } catch (err) {
         res = err.toString();
       }
@@ -106,6 +75,75 @@ class AuthMethods {
 
     return res;
   }
+
+  Future<bool> isUsernameAlreadyTaken(String username) async {
+    try {
+      // Query Firestore to check if the username already exists
+      QuerySnapshot querySnapshot = await _firestore
+          .collection("users")
+          .where("username", isEqualTo: username)
+          .limit(1)
+          .get();
+
+      return querySnapshot.docs.isNotEmpty;
+    } catch (err) {
+      // Handle any errors that occur during the query
+      if (kDebugMode) {
+        print("Error checking username: $err");
+      }
+      return false;
+    }
+  }
+
+  // Future<String> signUpUser({
+  //   required String email,
+  //   required String password,
+  //   required String username,
+  //   required String bio,
+  //   required Uint8List? file,
+  // }) async {
+  //   String res = "Some error Occurred";
+  //   if (email.isNotEmpty ||
+  //       password.isNotEmpty ||
+  //       username.isNotEmpty ||
+  //       bio.isNotEmpty) {
+
+  //     try {
+  //       // registering user in auth with email and password
+  //       UserCredential cred = await _auth.createUserWithEmailAndPassword(
+  //         email: email,
+  //         password: password,
+  //       );
+
+  //       String photoUrl = await StorageMethods()
+  //           .uploadImageToStroage('profilePics', file!, false);
+
+  //       model.User user = model.User(
+  //         username: username,
+  //         uid: cred.user!.uid,
+  //         photoUrl: photoUrl,
+  //         email: email,
+  //         bio: bio,
+  //         followers: [],
+  //         following: [],
+  //       );
+
+  //       // adding user in our database
+  //       await _firestore
+  //           .collection("users")
+  //           .doc(cred.user!.uid)
+  //           .set(user.toJson());
+
+  //       res = "success";
+  //     } catch (err) {
+  //       res = err.toString();
+  //     }
+  //   } else {
+  //     res = "Please enter all the fields";
+  //   }
+
+  //   return res;
+  // }
 
   //login user
 

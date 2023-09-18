@@ -1,4 +1,4 @@
-import 'package:chatup/screens/chat_screen.dart';
+import 'package:chatup/screens/chat/chat_screen.dart';
 import 'package:chatup/utils/global_variables.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -21,32 +21,34 @@ class _FeedScreenState extends State<FeedScreen> {
     final Size size = MediaQuery.sizeOf(context);
 
     return Scaffold(
-      appBar: size.width > webScreenSize
-          ? null
-          : AppBar(
-              automaticallyImplyLeading: false,
-              backgroundColor: size.width > webScreenSize
-                  ? webBackgroundColor
-                  : mobileBackgroundColor,
-              centerTitle: false,
-              title: const Text(
-                "chatUp",
-              ),
+      appBar:
+          // size.width > webScreenSize
+          //     ? null
+          // :
+          AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: size.width > webScreenSize
+            ? webBackgroundColor
+            : mobileBackgroundColor,
+        centerTitle: false,
+        title: const Text(
+          "chatUp",
+        ),
 
-              //  SvgPicture.asset(
-              //   "assets/ic_instagram.svg",
-              //   color: primaryColor,
-              //   height: 32,
-              // ),
-              actions: [
-                IconButton(
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const ChatScreen(),
-                  )),
-                  icon: const Icon(Icons.messenger_outline),
-                )
-              ],
-            ),
+        //  SvgPicture.asset(
+        //   "assets/ic_instagram.svg",
+        //   color: primaryColor,
+        //   height: 32,
+        // ),
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const ChatScreen(),
+            )),
+            icon: const Icon(Icons.messenger_outline),
+          )
+        ],
+      ),
       body: StreamBuilder(
         stream: firestore
             .collection('posts')

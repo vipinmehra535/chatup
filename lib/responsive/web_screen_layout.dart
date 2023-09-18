@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:chatup/utils/color.dart';
 import 'package:chatup/utils/global_variables.dart';
-import 'package:flutter/material.dart';
 
 class WebScreenLayout extends StatefulWidget {
   const WebScreenLayout({Key? key}) : super(key: key);
@@ -11,9 +12,8 @@ class WebScreenLayout extends StatefulWidget {
 
 class _WebScreenLayoutState extends State<WebScreenLayout> {
   int _page = 0;
+  late PageController pageController; // for tabs animation
 
-  late PageController pageController;
-  // for tabs animation
   @override
   void initState() {
     super.initState();
@@ -35,77 +35,59 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
   void navigationTapped(int page) {
     //Animating Page
     pageController.jumpToPage(page);
-    setState(() {
-      _page = page;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: webBackgroundColor,
-        centerTitle: false,
-        title: const Text(
-          "chatUp",
-        ),
-
-        //  SvgPicture.asset(
-        //   "assets/ic_instagram.svg",
-        //   color: primaryColor,
-        //   height: 32,
-        // ),
-        actions: [
-          IconButton(
-            splashColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onPressed: () => navigationTapped(0),
-            icon: Icon(
-              Icons.home,
-              color: (_page == 0) ? primaryColor : secondaryColor,
-            ),
-          ),
-          const SizedBox(width: 15),
-          IconButton(
-            splashColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onPressed: () => navigationTapped(1),
-            icon: Icon(
-              Icons.search,
-              color: (_page == 1) ? primaryColor : secondaryColor,
-            ),
-          ),
-          const SizedBox(width: 15),
-          IconButton(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-            onPressed: () => navigationTapped(2),
-            icon: Icon(
-              Icons.add_reaction_outlined,
-              color: (_page == 2) ? primaryColor : secondaryColor,
-            ),
-          ),
-          const SizedBox(width: 15),
-          IconButton(
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-            onPressed: () => navigationTapped(3),
-            icon: Icon(
-              Icons.person,
-              color: (_page == 3) ? primaryColor : secondaryColor,
-            ),
-          )
-        ],
-      ),
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
+        onPageChanged: onPageChanged,
         children: homeScreenItems,
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(top: 20.0),
+        child: CupertinoTabBar(
+          onTap: navigationTapped,
+          currentIndex: _page,
+          backgroundColor: size.width > webScreenSize
+              ? webBackgroundColor
+              : mobileBackgroundColor,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: (_page == 0) ? primaryColor : secondaryColor,
+              ),
+              label: '',
+              backgroundColor: primaryColor,
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.search,
+                  color: (_page == 1) ? primaryColor : secondaryColor,
+                ),
+                label: '',
+                backgroundColor: primaryColor),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.add_reaction_outlined,
+                  color: (_page == 2) ? primaryColor : secondaryColor,
+                ),
+                label: '',
+                backgroundColor: primaryColor),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+                color: (_page == 3) ? primaryColor : secondaryColor,
+              ),
+              label: '',
+              backgroundColor: primaryColor,
+            ),
+          ],
+        ),
       ),
     );
   }

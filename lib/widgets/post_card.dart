@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:chatup/model/user.dart';
 import 'package:chatup/providers/user_provider.dart';
 import 'package:chatup/resources/firebase_methods.dart';
-import 'package:chatup/screens/comments_screen.dart';
+import 'package:chatup/screens/comment/comments_screen.dart';
 import 'package:chatup/utils/color.dart';
 import 'package:chatup/utils/utils.dart';
 import 'package:chatup/widgets/like_animation.dart';
@@ -67,7 +67,7 @@ class _PostCardState extends State<PostCard> {
     return user == null
         ? const Center(
             child: CircularProgressIndicator(
-            color: Colors.black,
+            color: Colors.white,
           ))
         : Container(
             decoration: BoxDecoration(

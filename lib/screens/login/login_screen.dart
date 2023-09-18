@@ -1,7 +1,10 @@
+import 'package:chatup/responsive/mobile_screen_layout.dart';
+import 'package:chatup/responsive/responsive_layout_screen.dart';
+import 'package:chatup/responsive/web_screen_layout.dart';
 import 'package:chatup/utils/global_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:chatup/resources/auth_methods.dart';
-import 'package:chatup/screens/signup_screen.dart';
+import 'package:chatup/screens/signup/signup_screen.dart';
 import 'package:chatup/utils/color.dart';
 import 'package:chatup/utils/utils.dart';
 import 'package:chatup/widgets/text_field_input.dart';
@@ -35,6 +38,17 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         isLoading = false;
       });
+      // navigate to the home screen
+      if (context.mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const ResponsiveLayout(
+              mobileScreenLayout: MobileScreenLayout(),
+              webScreenLayout: WebScreenLayout(),
+            ),
+          ),
+        );
+      }
     } else {
       if (context.mounted) {
         showSnackBar(res, context);

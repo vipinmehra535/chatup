@@ -9,7 +9,7 @@ import 'package:chatup/providers/user_provider.dart';
 import 'package:chatup/responsive/mobile_screen_layout.dart';
 import 'package:chatup/responsive/responsive_layout_screen.dart';
 import 'package:chatup/responsive/web_screen_layout.dart';
-import 'package:chatup/screens/login_screen.dart';
+import 'package:chatup/screens/login/login_screen.dart';
 import 'package:chatup/utils/color.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';

@@ -1,27 +1,25 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class ChatRoom {
-  final String chatRoomId;
-  final List participants;
+  String? chatRoomId;
+  Map<String, dynamic>? participants;
+  String? lastMessage;
 
-  const ChatRoom({
-    required this.chatRoomId,
-    required this.participants
-   
+  ChatRoom({
+    this.chatRoomId,
+    this.participants,
+    this.lastMessage,
   });
 
-  static ChatRoom fromSnap(DocumentSnapshot snap) {
-    var snapshot = snap.data() as Map<String, dynamic>;
-
+  static ChatRoom fromSnap(Map<String, dynamic> map) {
     return ChatRoom(
-      chatRoomId: snapshot["chatRoomId"],
-      participants: snapshot["participants"],
+      chatRoomId: map["chatRoomId"],
+      participants: map["participants"],
+      lastMessage: map["lastMessage"],
     );
   }
 
   Map<String, dynamic> toJson() => {
         "chatRoomId": chatRoomId,
         "participants": participants,
-        
+        "lastMessage": lastMessage
       };
 }

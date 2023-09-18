@@ -1,6 +1,6 @@
 import 'package:chatup/resources/auth_methods.dart';
 import 'package:chatup/resources/firebase_methods.dart';
-import 'package:chatup/screens/login_screen.dart';
+import 'package:chatup/screens/login/login_screen.dart';
 import 'package:chatup/utils/color.dart';
 import 'package:chatup/utils/utils.dart';
 import 'package:chatup/widgets/follow_button.dart';

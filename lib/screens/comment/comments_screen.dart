@@ -29,7 +29,6 @@ class _CommentsScreenState extends State<CommentsScreen> {
   @override
   Widget build(BuildContext context) {
     User? user = Provider.of<UserProvider>(context).getUser;
-//dekh rha h ???? ye dekh ab  agar me yaha ? ye use krta hu a
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
