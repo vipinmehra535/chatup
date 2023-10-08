@@ -20,16 +20,16 @@ class Message {
 
     return Message(
         messageId: snapshot["messageId"],
-        sender: snapshot["chatRoomId"],
-        messageText: snapshot["participants"],
+        sender: snapshot["sender"],
+        messageText: snapshot["messageText"],
         createdOn: snapshot["createdOn"].toDate(),
         seen: snapshot["seen"]);
   }
 
   Map<String, dynamic> toJson() => {
         "messageId": messageId,
-        "chatRoomId": sender,
-        "participants": messageText,
+        "sender": sender,
+        "messageText": messageText,
         "createdOn": createdOn,
         "seen": seen
       };

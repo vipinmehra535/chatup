@@ -64,21 +64,21 @@ class _PostCardState extends State<PostCard> {
     user = Provider.of<UserProvider>(context).getUser;
 
     final Size size = MediaQuery.sizeOf(context);
-    return user == null
-        ? const Center(
-            child: CircularProgressIndicator(
-            color: Colors.white,
-          ))
-        : Container(
-            decoration: BoxDecoration(
-              color: mobileBackgroundColor,
-              border: Border.all(
-                  color: size.width > webScreenSize
-                      ? secondaryColor
-                      : webBackgroundColor),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Column(
+    return Container(
+      decoration: BoxDecoration(
+        color: mobileBackgroundColor,
+        border: Border.all(
+            color: size.width > webScreenSize
+                ? secondaryColor
+                : webBackgroundColor),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: user == null
+          ? const Center(
+              child: CircularProgressIndicator(
+              color: Colors.black,
+            ))
+          : Column(
               children: [
                 //Header Section
                 Container(
@@ -161,7 +161,7 @@ class _PostCardState extends State<PostCard> {
                         width: double.infinity,
                         child: Image.network(
                           widget.snap['postUrl'].toString(),
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                         ),
                       ),
                       AnimatedOpacity(
@@ -315,6 +315,6 @@ class _PostCardState extends State<PostCard> {
                 )
               ],
             ),
-          );
+    );
   }
 }

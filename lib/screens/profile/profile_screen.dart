@@ -43,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       // get post lENGTH
       var postSnap = await FirebaseFirestore.instance
           .collection('posts')
-          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .where('uid', isEqualTo: widget.uid)
           .get();
 
       postLen = postSnap.docs.length;
@@ -219,6 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     }
 
                     return GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: (snapshot.data! as dynamic).docs.length,
                       gridDelegate:

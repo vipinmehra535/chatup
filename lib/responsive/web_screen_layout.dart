@@ -39,7 +39,7 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.sizeOf(context);
+    // final Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
@@ -52,9 +52,11 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
         child: CupertinoTabBar(
           onTap: navigationTapped,
           currentIndex: _page,
-          backgroundColor: size.width > webScreenSize
-              ? webBackgroundColor
-              : mobileBackgroundColor,
+          backgroundColor:
+              //  size.width > webScreenSize
+              //     ? webBackgroundColor
+              //     :
+              mobileBackgroundColor,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(

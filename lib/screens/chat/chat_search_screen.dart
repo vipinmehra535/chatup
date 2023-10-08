@@ -59,6 +59,11 @@ class _SearchChatScreenState extends State<SearchChatScreen> {
             targetUser.toString(): true,
           },
           lastMessage: "",
+          createdOn: DateTime.now(),
+          users: [
+            user.uid.toString(),
+            targetUser.toString(),
+          ],
         );
 
         await FirebaseFirestore.instance

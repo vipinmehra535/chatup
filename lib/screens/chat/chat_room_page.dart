@@ -31,6 +31,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.sizeOf(context);
     User? user = Provider.of<UserProvider>(context).getUser;
     void sendMessage() async {
       String msg = textEditingController.text.trim();
@@ -52,6 +53,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             .doc(newMessage.messageId)
             .set(newMessage.toJson());
         widget.chatRoom.lastMessage = msg;
+        widget.chatRoom.createdOn = DateTime.now();
+
         FirebaseFirestore.instance
             .collection("chatrooms")
             .doc(widget.chatRoom.chatRoomId)
@@ -118,7 +121,13 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                                                 : Colors.pink,
                                         borderRadius:
                                             BorderRadius.circular(10)),
-                                    child: Text(currentMessage.messageText),
+                                    child: ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                          maxWidth: size.width / 2),
+                                      child: Text(
+                                        currentMessage.messageText.toString(),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               );
