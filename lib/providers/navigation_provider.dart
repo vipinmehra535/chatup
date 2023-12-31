@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 
 class NavigationProvider extends ChangeNotifier {
-  List<NavigationState> _tracks = [
-    // NavigationState(navigationIndex: 0, page: Home),//home screen daal yha without scaffold
-  ];
-  NavigationState get currentState => _tracks.last;
+  // List<NavigationState> _tracks = [
+  //   // NavigationState(navigationIndex: 0, page: Home),
+  // ];
+  // NavigationState get currentState => _tracks.last;
 
-  setNavigationState(NavigationState newState) {
-    _tracks.add(newState);
-    notifyListeners();
-  }
+  // setNavigationState(NavigationState newState) {
+  //   _tracks.add(newState);
+  //   notifyListeners();
+  // }
 
-  bool back() {
-    if (_tracks.length > 1) {
-      _tracks.removeLast();
-      notifyListeners();
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // bool back() {
+  //   if (_tracks.length > 1) {
+  //     _tracks.removeLast();
+  //     notifyListeners();
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 }
 
 class NavigationState {

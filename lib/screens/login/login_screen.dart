@@ -38,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         isLoading = false;
       });
+
       // navigate to the home screen
       if (context.mounted) {
         Navigator.of(context).pushReplacement(
@@ -76,6 +77,11 @@ class _LoginScreenState extends State<LoginScreen> {
               Flexible(
                 flex: 2,
                 child: Container(),
+              ),
+              Image.asset(
+                "assets/logo.png",
+                color: Colors.white,
+                height: 110,
               ),
               const SizedBox(
                 height: 64,
