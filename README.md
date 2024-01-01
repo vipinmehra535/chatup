@@ -16,6 +16,9 @@ A completely Responsive chatUp App- Works on Android, iOS & Web!
 - Sign Out
 
 
+![chatUp](https://github.com/vipinmehra535/chatup/assets/88340224/cf26b576-2894-4b55-a4f8-c0e1dd1d9027)
+
+
 
 ## Installation
 After cloning this repository, migrate to ```chatup``` folder. Then, follow the following steps:
