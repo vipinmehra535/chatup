@@ -3,7 +3,7 @@
 A completely Responsive chatUp App- Works on Android, iOS & Web! 
 
 ## Features
-- Responsive Instagram UI
+- Responsive chatUp UI
 - Email & Password Authentication
 - Share Posts with Caption
 - Display Posts with Caption
