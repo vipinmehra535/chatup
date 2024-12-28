@@ -25,7 +25,11 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
   }
 
   addData() async {
-    UserProvider userProvider = Provider.of(context, listen: false);
+    // Get the UserProvider instance from the Provider widget above in the widget tree.
+    // We use listen: false because we don't want to rebuild the widget tree if the
+    // UserProvider changes. We only want to read the value once when the widget is
+    // initialized.
+    UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
     await userProvider.refreshUser();
   }
 
